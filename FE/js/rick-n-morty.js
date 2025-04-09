@@ -5,77 +5,76 @@ let currentSearch = "";
 
 async function fetchCharacters(page = 1, name = "") {
 	try {
-		const URL = `https://rickandmortyapi.com/api/character?page=${page}&name=${encodeURIComponent(
-			name
-		)}`;
+		const URL = `https://rickandmortyapi.com/api/character/?page=${page}&name=${name}`;
 		const response = await fetch(URL);
-		if (!response.ok) throw new Error("Brak wyników");
 		const data = await response.json();
-		//inaczej:
-		//fetch(URL).then(response => response.json().then(data => {}));
-
+	
+		allCharacters = data.results;
 		totalPages = data.info.pages;
-		currentPage = page;
 		currentSearch = name;
-
-		document.getElementById(
-			"pageInfo"
-		).innerText = `Strona: ${currentPage} / ${totalPages}`;
-		displayCharacters(data.results);
-		toggleButtons();
+	
+		document.querySelector(".pagination__info").textContent = `Strona: ${currentPage}`;
+	
+		displayCharacters(allCharacters);
 	} catch (error) {
-		document.getElementById(
-			"characters"
-		).innerHTML = `<p>Nie znalezion postaci.</p>`;
-		document.getElementById("pageInfo").innerText = "";
+		console.error("Błąd podczas pobierania danych:", error);
+		const container = document.querySelector(".characters");
+		container.innerHTML = `<p class="characters__error">Nie znaleziono wyników. Spróbuj ponownie.</p>`;
+		document.querySelector(".pagination__info").textContent = `Brak wyników`;
 		totalPages = 1;
-		toggleButtons();
 	}
+
 }
+fetchCharacters(1, "");
 
 function displayCharacters(characters) {
-	const container = document.getElementById("characters");
+	const container = document.querySelector(".characters");
 	container.innerHTML = "";
 
-	characters.forEach(character => {
+	characters.forEach(char => {
+		const charContainer = document.createElement("a");
+		charContainer.setAttribute("href", `character.html?id=${char.id}`);
+
 		const characterDiv = document.createElement("div");
-		characterDiv.className = "character";
+		characterDiv.classList.add("character");
 
-		const imageUrl = character.image || "https://placehold.co/150x150?text=Brak+obrazka";
+		const image = document.createElement("img");
+		image.src = char.image || "https://placehold.co/150x150?text=Brak+obrazka";
+		image.alt = char.name;
 
-		characterDiv.addEventListener('click', () => {
-			window.location.href = `character.html?id=${character.id}`;
-		})
+		const name = document.createElement("div");
+		name.classList.add("character__name");
+		name.textContent = char.name;
 
-		characterDiv.innerHTML = `
-              <img src="${imageUrl}" alt="${character.name}" onerror="this.src='https://placehold.co/150x150?text=Brak+obrazka';">
-              <p><strong>${character.name}</strong></p>
-              <p>${character.species}</p>
-            `;
+		const species = document.createElement("p");
+		species.textContent = char.species;
 
-		container.appendChild(characterDiv);
+		characterDiv.appendChild(image);
+		characterDiv.appendChild(name);
+		characterDiv.appendChild(species);
+		charContainer.appendChild(characterDiv);
+
+		container.appendChild(charContainer);
 	});
 }
 
-function toggleButtons() {
-	document.getElementById("prev").disabled = currentPage <= 1;
-	document.getElementById("next").disabled = currentPage >= totalPages;
-}
+document.querySelector(".page-header__form").addEventListener("submit", e => {
+	e.preventDefault();
+	const value = document.querySelector(".page-header__input").value.trim(); //To API samo ucina białe znaki, ale warto dawać
+	currentPage = 1;
+	fetchCharacters(currentPage, value);
+});
 
-document.getElementById("search").addEventListener("keydown", e => {
-	if (e.key === "Enter") {
-		const searchValue = e.target.value.trim();
-		fetchCharacters(1, searchValue);
+const prev = document.getElementById("prev").addEventListener("click", () => {
+	if (currentPage > 1) {
+		currentPage--;
+		fetchCharacters(currentPage, currentSearch);
 	}
 });
 
-document.getElementById("prev").addEventListener("click", () => {
-	if (currentPage > 1) fetchCharacters(currentPage - 1, currentSearch);
+const next = document.getElementById("next").addEventListener("click", () => {
+	if (currentPage < totalPages) {
+		currentPage++;
+		fetchCharacters(currentPage, currentSearch);
+	}
 });
-
-document.getElementById("next").addEventListener("click", () => {
-	if (currentPage <= totalPages)
-		fetchCharacters(currentPage + 1, currentSearch);
-});
-
-fetchCharacters();

@@ -1,8 +1,14 @@
 class Tabs {
+
+    container;
+    tabs;
+    activeIndex = 0;
+    buttonsWrapper = null;
+    contentWrapper = null;
+
     constructor(container, config) {
         this.container = container;
         this.tabs = config;
-        this.activeIndex = 0;
 
         this.render();
 
@@ -12,10 +18,10 @@ render() {
     this.container.innerHTML = '';
     
     const tabsElement = document.createElement('div');
-    tabsElement.className = 'tabs';
+    tabsElement.classList.add('tabs');
 
     const buttonsWrapper = document.createElement('div');
-    buttonsWrapper.className = 'tab-buttons';
+    buttonsWrapper.classList.add('tab-buttons');
 
     this.tabs.forEach((tab, index) => {
     const btn = document.createElement('button');

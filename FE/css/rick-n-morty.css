@@ -6,49 +6,150 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
-    padding: 20px;
+    padding: 16px;
     background: #f0f0f0;
 }
 
-.first-row {
+.page-header {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-input {
+.page-header__title {
+    font-size: 22px;
+}
+
+.page-header__input {
   padding: 10px;
   font-size: 16px;
-  margin-bottom: 20px;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.controls {
+.pagination {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    margin: 20px 0;
-
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
-button {
+.pagination__button {
     padding: 10px 20px;
-    margin: 0 10px;
     font-size: 16px;
+    width: 100%;
+    max-width: 300px;
+    border: none;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 3px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.pagination__info {
+    font-weight: bold;
+}
+
+.characters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.characters a {
+    text-decoration: none; 
+    color: inherit; 
 }
 
 .character {
-    display: inline-block;
-    margin: 10px;
+    background: #ffffff;
     padding: 10px;
-    background: white;
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
     text-align: center;
-    width: 150px;
+    width: 100%;
+    max-width: 160px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.character:hover {
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    transform: scale(1.03);
+  }
 
 .character img {
     width: 100%;
     border-radius: 8px;
 }
+
+.character__name {
+	font-weight: bold;
+	font-size: 16px;
+	margin-top: 10px;
+}
+
+.characters__error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+@media (min-width: 600px) {
+    .page-header {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+    }
+
+    .page-header__title {
+        font-size: 26px;
+    }
+
+    .pagination {
+        flex-direction: row;
+        justify-content: center;;
+    }
+
+    .pagination__button {
+        max-width: none; 
+        width: auto;
+    }
+
+    .character {
+        max-width: 180px;
+    }
+
+    .character__name {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 992px) {
+    .character {
+        max-width: 200px;
+    }
+
+    .page-header__title {
+        font-size: 32px;
+    }
+
+    .page-header__input {
+        font-size: 18px;
+        max-width: 400px;
+    }
+
+    .pagination__button {
+        font-size: 18px;
+    }
+}
+
 

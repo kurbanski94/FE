@@ -15,37 +15,35 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100%;
     font-family: 'Montserrat', sans-serif;
     color: var(--primary);
 }
 
-.growth__box {
+.growth-box {
     display: flex;
     flex-direction: column;
     height: 100vh;
     background-color: #1c1938;
 }
 
-.growth__box-img {
+.growth-box__img {
     position: relative;
     display: inline-block;
     aspect-ratio: 4 / 3;
     overflow: hidden;
 }
 
-.growth__box-img::after {
+.growth-box__img::after {
     content:"";
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background-color: var(--strong-img);
+/*  mix-blend-mode: multiply;  lub overlay, screen, color-burn, darken itp */  
     pointer-events: none;
 }
 
-.growth__box-img img {
+.growth-box__img img {
     display: block;
     width: 100%;
     height: 100%;
@@ -54,14 +52,14 @@ body {
     object-position: top; 
 }
 
-.growth__box-info {
+.growth-box__info {
     display: flex;
     flex-direction: column;
     height: 100%;
-    justify-content: space-evenly; /*to w sumie do przemyślenia */
+    justify-content: space-evenly; 
 }
 
-h2 {
+h1 {
     margin-top: 15px;
     padding: 0 10px;
     text-align: center;
@@ -81,6 +79,7 @@ strong {
 }
 
 .set {
+    list-style: none;
     margin-top: 20px;
 }
 
@@ -89,7 +88,7 @@ p {
     text-align: center;
 }
 
-.desc {
+.growth-box__desc {
     margin-top: 10px;
     padding: 0 10px;
     color: var(--secondary);
@@ -108,28 +107,27 @@ p {
 }
 
 @media (min-width: 768px) {
-    .growth__box {
+    .growth-box {
         position: relative;
         flex-direction: row;
         width: 90%;
         height: 40%;
         border-radius: 8px;   
+        overflow: hidden;
     }
     
-    .growth__box-img {
+    .growth-box__img {
         order: 2;
         width: 50%;
         height: auto;
-        overflow: hidden;
-        border-radius: 0px 8px 8px 0;
     }
 
-    .growth__box-img img {
+    .growth-box__img img {
         height: 100%;
         object-fit: cover;
     }
 
-    .growth__box-info {
+    .growth-box__info {
         order: 1;
         width: 50%;
         display: flex;
@@ -138,7 +136,7 @@ p {
         align-items: center;
     }
 
-    .desc {
+    .growth-box__desc {
         margin-top: 20px;
         text-align: left;
     }
@@ -154,13 +152,13 @@ p {
 }
 
 @media (min-width: 992px) {
-    .growth__box {
+    .growth-box {
         width: 75%;
     }
 }
 
 @media (min-width: 1400px) {
-    .growth__box {
+    .growth-box {
         width: 50%;
     }
 }
